@@ -12,6 +12,9 @@ class User(Base):
     last_name = Column(String, unique= False, nullable= False)
     hashed_password = Column(String, nullable= False)
     cred_score = Column(Float, nullable=False,default=50)
+    trust_level = Column(Integer, nullable= False, default=0)
+    account_status = Column(Integer, nullable=False, default=0)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda:datetime.now(timezone.utc))
+
 
