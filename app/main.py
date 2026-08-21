@@ -4,10 +4,15 @@ from app.models.user import User
 from app.models.product import Product
 from app.models.review import Review
 from app.routers.users import router as users_router
+from app.routers.products import router as products_router
+from app.routers.reviews import router as reviews_router
+
 
 app = FastAPI()
 Base.metadata.create_all(bind=engine)
 app.include_router(users_router)
+app.include_router(products_router, prefix="/products", tags=["products"])
+app.include_router(reviews_router, prefix="/reviews", tags=["reviews"])
 
 @app.get("/")
 def read_root():
