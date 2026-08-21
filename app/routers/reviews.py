@@ -6,6 +6,7 @@ from app.models.user import User
 from app.models.review import Review
 from app.schemas.review import ReviewCreate, ReviewResponse
 from app.routers.users import get_db, get_current_user
+from app.services.moderation import check_guidelines
 
 router = APIRouter()
 
@@ -23,13 +24,14 @@ def create_review(review:ReviewCreate, current_user: User = Depends(get_current_
     if existing:
         raise HTTPException(status_code=400, detail="You have already reviewed this product")
 
+    score, passed = check_guidelines(review.body)
     new_review= Review(
         product_id = review.product_id,
         body= review.body,
         user_id= current_user.id,
         rating = review.rating,
-        guideline_score = 0.0,
-        approved=False
+        guideline_score = score,
+        approved=passed
     )
 
 
