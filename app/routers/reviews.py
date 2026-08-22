@@ -55,6 +55,4 @@ def get_reviews(db: Session = Depends(get_db)):
 @router.get("/{product_id}", response_model=list[ReviewResponse])
 def get_product_reviews(product_id: int, db: Session = Depends(get_db)):
     review = db.query(Review).filter(Review.product_id == product_id).all()
-
-
     return review
